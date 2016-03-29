@@ -104,6 +104,13 @@ int Heap::getSize()
 	return this->size;
 }
 
+bool Heap::find(int value) {
+	for (int i = 0; i < size; i++) {
+		if (data[i] == value) return true;
+	}
+	return false;
+}
+
 Heap::~Heap()
 {
 	delete[] data;

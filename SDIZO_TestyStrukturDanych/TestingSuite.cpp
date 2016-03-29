@@ -7,15 +7,18 @@ TestResults::TestResults(char * header, int dataSize, double averageTmeInNano) {
 	this->averageTimeInSeconds = averageTmeInNano / 1000000000;
 }
 
-TestingSuite::TestingSuite(int dataSize, int maxInt)
+TestingSuite::TestingSuite(int dataSize, int maxInt, bool randomize)
 {
 	srand(time(nullptr));	// Seed of time
 	this->dataSize = dataSize;
 	this->maxInt = maxInt;
+	this->randomizeEachRepeat = randomize;
 }
 
 void TestingSuite::prepareTestData()
 {
+	if (randomData != nullptr) delete[] randomData;
+
 	randomData = new int[dataSize];
 
 	for (int i = 0; i < dataSize; i++) {
@@ -31,7 +34,8 @@ TestResults TestingSuite::runAppendTestsForArray(int repeats)
 	for (int i = 0; i < repeats; i++) {
 		timer = Timer();
 		arr = new Array();
-
+		if(randomizeEachRepeat) prepareTestData();
+		
 		timer.startTimer();
 		for (int q = 0; q < dataSize; q++) {
 			arr->append(randomData[q]);
@@ -56,7 +60,8 @@ TestResults TestingSuite::runAppendTestsForList(int repeats)
 	for (int i = 0; i < repeats; i++) {
 		timer = Timer();
 		list = new List();
-
+		if (randomizeEachRepeat) prepareTestData();
+		
 		timer.startTimer();
 		for (int q = 0; q < dataSize; q++) {
 			list->append(randomData[q]);
@@ -64,6 +69,8 @@ TestResults TestingSuite::runAppendTestsForList(int repeats)
 		timer.endTimer();
 
 		avgTime += timer.getTimeInNanoseconds();
+
+		std::cout << "List time: " << timer.getTimeInNanoseconds() << std::endl;
 
 		delete list;
 	}
@@ -81,7 +88,8 @@ TestResults TestingSuite::runAppendTestsForHeap(int repeats)
 	for (int i = 0; i < repeats; i++) {
 		timer = Timer();
 		heap = new Heap();
-
+		if (randomizeEachRepeat) prepareTestData();
+		
 		timer.startTimer();
 		for (int q = 0; q < dataSize; q++) {
 			heap->insert(randomData[q]);
@@ -101,4 +109,5 @@ TestResults TestingSuite::runAppendTestsForHeap(int repeats)
 
 TestingSuite::~TestingSuite()
 {
+	if (randomData != nullptr) delete[] randomData;
 }

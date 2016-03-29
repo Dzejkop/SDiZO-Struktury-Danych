@@ -35,6 +35,9 @@ public:
 	// Rozmiar
 	int getSize();
 
+	// Przeszukuje kopiec w poszukiwaniu wartosci
+	bool find(int value);
+
 	~Heap();
 };
 
