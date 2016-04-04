@@ -70,8 +70,6 @@ TestResults TestingSuite::runAppendTestsForList(int repeats)
 
 		avgTime += timer.getTimeInNanoseconds();
 
-		std::cout << "List time: " << timer.getTimeInNanoseconds() << std::endl;
-
 		delete list;
 	}
 
@@ -104,6 +102,107 @@ TestResults TestingSuite::runAppendTestsForHeap(int repeats)
 	avgTime = avgTime / (double)repeats;
 
 	return TestResults("Heap Insert Test", dataSize, avgTime);
+}
+
+TestResults TestingSuite::runRemoveTestsForArray(int repeats)
+{
+	Timer timer;
+	Array * arr;
+	double avgTime = 0;
+	for (int i = 0; i < repeats; i++) {
+		timer = Timer();
+
+		if (randomizeEachRepeat) prepareTestData();
+
+		arr = new Array(dataSize, randomData);
+		
+		timer.startTimer();
+		for (int q = 0; q < dataSize; q++) {
+			arr->pop();
+		}
+		timer.endTimer();
+
+		avgTime += timer.getTimeInNanoseconds();
+
+		delete arr;
+	}
+
+	avgTime = avgTime / (double)repeats;
+
+	return TestResults("Array Remove Test", dataSize, avgTime);
+}
+
+TestResults TestingSuite::runRemoveTestsForHeap(int repeats)
+{
+	Timer timer;
+	Heap * heap;
+	double avgTime = 0;
+	for (int i = 0; i < repeats; i++) {
+		timer = Timer();
+
+		if (randomizeEachRepeat) prepareTestData();
+
+		heap = new Heap(dataSize, randomData);
+
+
+		timer.startTimer();
+		for (int q = 0; q < dataSize; q++) {
+			heap->extractRoot();
+		}
+		timer.endTimer();
+
+		avgTime += timer.getTimeInNanoseconds();
+
+		delete heap;
+	}
+
+	avgTime = avgTime / (double)repeats;
+
+	return TestResults("Heap Remove Test", dataSize, avgTime);
+}
+
+TestResults TestingSuite::runRemoveTestsForList(int repeats)
+{
+	Timer timer;
+	List * list;
+	double avgTime = 0;
+	for (int i = 0; i < repeats; i++) {
+		timer = Timer();
+
+		if (randomizeEachRepeat) prepareTestData();
+
+		list = new List(dataSize, randomData);
+
+
+		timer.startTimer();
+		for (int q = 0; q < dataSize; q++) {
+			list->pop();
+		}
+		timer.endTimer();
+
+		avgTime += timer.getTimeInNanoseconds();
+
+		delete list;
+	}
+
+	avgTime = avgTime / (double)repeats;
+
+	return TestResults("List Remove Test", dataSize, avgTime);
+}
+
+TestResults TestingSuite::runSearchTestsForArray(int repeats)
+{
+	return TestResults("Heap Remove Test", 0, 0);
+}
+
+TestResults TestingSuite::runSearchTestsForHeap(int repeats)
+{
+	return TestResults("Heap Remove Test", 0, 0);
+}
+
+TestResults TestingSuite::runSearchTestsForList(int repeats)
+{
+	return TestResults("Heap Remove Test", 0, 0);
 }
 
 

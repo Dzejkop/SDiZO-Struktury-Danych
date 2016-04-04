@@ -6,7 +6,6 @@
 #include <ctime>
 #include <random>
 #include "Timer.h"
-#include <iostream>
 
 struct TestResults {
 	TestResults(char * header, int dataSize, double averageTmeInNano);
@@ -30,6 +29,11 @@ public:
 	TestResults runAppendTestsForList(int repeats);
 	TestResults runAppendTestsForHeap(int repeats);
 	TestResults runRemoveTestsForArray(int repeats);
+	TestResults runRemoveTestsForHeap(int repeats);
+	TestResults runRemoveTestsForList(int repeats);
+	TestResults runSearchTestsForArray(int repeats);
+	TestResults runSearchTestsForHeap(int repeats);
+	TestResults runSearchTestsForList(int repeats);
 
 	~TestingSuite();
 };

@@ -4,11 +4,6 @@ class Heap
 private:
 	int * data;
 
-	// Funkcje dostêpu do pokrewnych elementów
-	int getParentOf(int i);
-	int getLeftOf(int i);
-	int getRightOf(int i);
-
 	// Naprawa kopca w górê
 	void upHeap(int i);
 
@@ -28,6 +23,11 @@ public:
 
 	// Usuwa korzeñ
 	void extractRoot();
+
+	// Funkcje dostêpu do pokrewnych elementów
+	int getParentOf(int i);
+	int getLeftOf(int i);
+	int getRightOf(int i);
 
 	// Dostêp bezpoœredni
 	int * getArray();

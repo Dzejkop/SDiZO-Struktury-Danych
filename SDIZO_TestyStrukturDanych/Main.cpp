@@ -88,8 +88,26 @@ void displayArray() {
 	cout << endl;
 }
 
+void displayHeapNode(int i) {
+
+	int * a = heap->getArray();
+	int right = heap->getRightOf(i);
+	int left = heap->getLeftOf(i);
+
+	cout << "(";
+	if (left < heap->getSize()) displayHeapNode(left);
+	else cout << "#";
+
+	cout << "-" << a[i] << "-";
+
+	if (right < heap->getSize()) displayHeapNode(right);
+	else cout << "#";
+	cout << ")";
+}
+
 void displayHeap() {
-	
+	displayHeapNode(0);
+	cout << endl;
 }
 
 void displayList() {
@@ -101,40 +119,6 @@ void displayList() {
 		if (i != size - 1) cout << ", ";
 	}
 	cout << endl;
-}
-
-void displayNode(TreeNode* node) {
-
-	if (node == nullptr) {
-		cout << "#";
-		return;
-	}
-
-	cout << "(";
-	displayNode(node->left);
-	cout << "-" << node->value << "-";
-	displayNode(node->right);
-	cout << ")";
-}
-
-void displayTree() {
-	Tree * tree = new Tree();
-	tree->insert(1);
-	tree->insert(10);
-	tree->insert(3);
-	tree->insert(7);
-	tree->insert(8);
-	tree->insert(21);
-	tree->insert(4);
-	tree->insert(13);
-	tree->insert(9);
-
-	tree->remove(9);
-	tree->remove(13);
-
-	displayNode(tree->getRoot());
-	cout << endl;
-
 }
 
 void arrayRoutine() {
@@ -202,7 +186,7 @@ void heapRoutine() {
 			heap = buildHeapFromFile();
 		}
 		else if (dec == '2' && isHeapBuilt()) {
-			displayArray();
+			displayHeap();
 		}
 		else if (dec == '3' && isHeapBuilt()) {
 			cout << "Wpisz wartosc do dodania: " << endl;
@@ -300,7 +284,7 @@ void mainMenu() {
 }
 
 void runTests() {
-	int repeats = 1;
+	int repeats = 10;
 
 	TestingSuite * suite = new TestingSuite(10000, 255, true);
 
@@ -319,13 +303,25 @@ void runTests() {
 	cout << results.testHeader << endl;
 	cout << "Avg. time: " << results.averageTimeInSeconds << "s " << endl;
 
-	system("PAUSE");
+	results = suite->runRemoveTestsForArray(repeats);
+
+	cout << results.testHeader << endl;
+	cout << "Avg. time: " << results.averageTimeInSeconds << "s " << endl;
+
+	results = suite->runRemoveTestsForList(repeats);
+
+	cout << results.testHeader << endl;
+	cout << "Avg. time: " << results.averageTimeInSeconds << "s " << endl;
+
+	results = suite->runRemoveTestsForHeap(repeats);
+
+	cout << results.testHeader << endl;
+	cout << "Avg. time: " << results.averageTimeInSeconds << "s " << endl;
 }
 
 int main() {
 	//mainMenu();
-	//runTests();
-	displayTree();
+	runTests();
 
 	system("PAUSE");
 	cleanup();

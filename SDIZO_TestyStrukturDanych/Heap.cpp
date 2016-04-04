@@ -2,17 +2,17 @@
 
 int Heap::getParentOf(int i)
 {
-	return i / 2;
+	return (i-1) / 2;
 }
 
 int Heap::getLeftOf(int i)
 {
-	return 2 * i;
+	return (2 * i) + 1;
 }
 
 int Heap::getRightOf(int i)
 {
-	return (2 * i) + 1;
+	return (2 * i) + 2;
 }
 
 void Heap::upHeap(int i)
@@ -82,6 +82,15 @@ void Heap::insert(int val)
 
 void Heap::extractRoot()
 {
+	if (size < 0) return;
+
+	if (size == 0) return;
+
+	if (size == 1) {
+		size--;
+		return;
+	}
+
 	int * tempData = new int[size - 1];
 	for (int i = 0; i < size - 1; i++) {
 		tempData[i] = data[i];
