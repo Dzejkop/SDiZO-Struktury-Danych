@@ -1,17 +1,18 @@
 #include "Array.h"
 #include "List.h"
 #include "Heap.h"
-#include "Tree.h"
 #include <iostream>
 #include "Timer.h"
 #include "TestingSuite.h"
 #include "FileReader.h"
+#include "Tree.h"
 
 using namespace std;
 
 Array * arr;
 Heap * heap;
 List * list;
+Tree * tree;
 
 FileReader * readFile() {
 	char * filename = new char[256];
@@ -47,6 +48,12 @@ Heap * buildHeapFromFile() {
 	return new Heap(fReader->getSize(), fReader->getNumbers());
 }
 
+Tree * buildTreeFromFile() {
+	FileReader * fReader = readFile();
+
+	return new Tree(fReader->getSize(), fReader->getNumbers());
+}
+
 bool isArrayBuilt() {
 	if (arr == nullptr) {
 		cout << "Tablica nie jest zbudowana!" << endl;
@@ -70,6 +77,16 @@ bool isListBuilt() {
 bool isHeapBuilt() {
 	if (heap == nullptr) {
 		cout << "Kopiec nie jest zbudowany!" << endl;
+		return false;
+	}
+	else {
+		return true;
+	}
+}
+
+bool isTreeBuilt() {
+	if (tree == nullptr) {
+		cout << "Drzewo nie jest zbudowany!" << endl;
 		return false;
 	}
 	else {
@@ -106,8 +123,7 @@ void displayHeapNode(int i) {
 }
 
 void displayHeap() {
-	displayHeapNode(0);
-	cout << endl;
+	heap->display(" ", "-", 0);
 }
 
 void displayList() {
@@ -121,16 +137,20 @@ void displayList() {
 	cout << endl;
 }
 
+void displayTree() {
+	tree->display(" ", "-", tree->root);
+}
+
 void arrayRoutine() {
 	while (true) {
 		cout << "Menu tablicy: " << endl << endl;
-		cout << "Wybierz akcjê: " << endl;
+		cout << "Wybierz akcje: " << endl;
 		cout << "1. Zbuduj z pliku." << endl;
-		cout << "2. Wyœwietl." << endl;
-		cout << "3. Dodaj wartoœæ." << endl;
-		cout << "4. Usuñ wartoœæ." << endl;
-		cout << "5. ZnajdŸ wartoœæ." << endl;
-		cout << "6. Wróc do g³ownego menu." << endl;
+		cout << "2. Wyswietl." << endl;
+		cout << "3. Dodaj wartosc." << endl;
+		cout << "4. Usuñ wartosc." << endl;
+		cout << "5. Znajdz wartosc." << endl;
+		cout << "6. Wroc do glownego menu." << endl;
 
 		char dec; cin >> dec;
 		cout << endl;
@@ -141,7 +161,9 @@ void arrayRoutine() {
 		else if (dec == '2' && isArrayBuilt()) {
 			displayArray();
 		}
-		else if (dec == '3' && isArrayBuilt()) {
+		else if (dec == '3') {
+			if (arr == nullptr) arr = new Array();
+
 			cout << "Wpisz wartosc do dodania: " << endl;
 			int value;
 			cin >> value;
@@ -171,13 +193,13 @@ void arrayRoutine() {
 void heapRoutine() {
 	while (true) {
 		cout << "Menu kopca: " << endl << endl;
-		cout << "Wybierz akcjê: " << endl;
+		cout << "Wybierz akcje: " << endl;
 		cout << "1. Zbuduj z pliku." << endl;
-		cout << "2. Wyœwietl." << endl;
-		cout << "3. Dodaj wartoœæ." << endl;
+		cout << "2. Wyswietl." << endl;
+		cout << "3. Dodaj wartosc." << endl;
 		cout << "4. Usuñ korzen." << endl;
-		cout << "5. ZnajdŸ wartoœæ." << endl;
-		cout << "6. Wróc do g³ownego menu." << endl;
+		cout << "5. Znajdz wartosc." << endl;
+		cout << "6. Wroc do glownego menu." << endl;
 
 		char dec; cin >> dec;
 		cout << endl;
@@ -188,7 +210,9 @@ void heapRoutine() {
 		else if (dec == '2' && isHeapBuilt()) {
 			displayHeap();
 		}
-		else if (dec == '3' && isHeapBuilt()) {
+		else if (dec == '3') {
+			if (heap == nullptr) heap = new Heap();
+
 			cout << "Wpisz wartosc do dodania: " << endl;
 			int value;
 			cin >> value;
@@ -215,13 +239,13 @@ void heapRoutine() {
 void listRoutine() {
 	while (true) {
 		cout << "Menu listy:" << endl << endl;
-		cout << "Wybierz akcjê: " << endl;
+		cout << "Wybierz akcje: " << endl;
 		cout << "1. Zbuduj z pliku." << endl;
-		cout << "2. Wyœwietl." << endl;
+		cout << "2. Wyswietl." << endl;
 		cout << "3. Dodaj wartosc." << endl;
 		cout << "4. Usuñ wartosc." << endl;
-		cout << "5. ZnajdŸ wartoœæ." << endl;
-		cout << "6. Wróc do g³ownego menu." << endl;
+		cout << "5. Znajdz wartosc." << endl;
+		cout << "6. Wroc do glownego menu." << endl;
 
 		char dec; cin >> dec;
 		cout << endl;
@@ -232,7 +256,9 @@ void listRoutine() {
 		else if (dec == '2' && isListBuilt()) {
 			displayList();
 		}
-		else if (dec == '3' && isListBuilt()) {
+		else if (dec == '3') {
+			if (list == nullptr) list = new List();
+
 			cout << "Wpisz wartosc do dodania: " << endl;
 			int value;
 			cin >> value;
@@ -259,71 +285,84 @@ void listRoutine() {
 	}
 }
 
+void treeRoutine() {
+	while (true) {
+		cout << "Menu drzewa:" << endl << endl;
+		cout << "Wybierz akcje: " << endl;
+		cout << "1. Zbuduj z pliku." << endl;
+		cout << "2. Wyswietl." << endl;
+		cout << "3. Dodaj wartosc." << endl;
+		cout << "4. Usuñ wartosc." << endl;
+		cout << "5. Znajdz wartosc." << endl;
+		cout << "6. Wroc do glownego menu." << endl;
+
+		char dec; cin >> dec;
+		cout << endl;
+
+		if (dec == '1') {
+			tree = buildTreeFromFile();
+		}
+		else if (dec == '2' && isTreeBuilt()) {
+			displayTree();
+		}
+		else if (dec == '3') {
+			if (tree == nullptr) tree = new Tree();
+
+			cout << "Wpisz wartosc do dodania: " << endl;
+			int value;
+			cin >> value;
+			tree->add(value);
+		}
+		else if (dec == '4' && isTreeBuilt()) {
+			cout << "Wpisz wartosc do usuniecia: " << endl;
+			int value;
+			cin >> value;
+			tree->remove(value);
+		}
+		else if (dec == '5' && isTreeBuilt()) {
+			cout << "Cout wpisz wartosc ktora chcesz wyszukac: " << endl;
+			int value; cin >> value;
+			if (tree->find(value))
+				cout << "Wartosc jest w drzewie" << endl;
+			else
+				cout << "Wartosci nie ma w drzewie" << endl;
+		}
+		else if (dec == '6') {
+			break;
+		}
+
+	}
+}
+
 void cleanup() {
 	if (arr != nullptr) delete arr;
 	if (list != nullptr) delete list;
 	if (heap != nullptr) delete heap;
+	if (tree != nullptr) delete tree;
 }
 
 void mainMenu() {
 	while (true) {
-		cout << "Wybierz typ danych: " << endl;
+		cout << "Wybierz strukture: " << endl;
 		cout << "1. Lista." << endl;
 		cout << "2. Kopiec." << endl;
 		cout << "3. Tablica." << endl;
-		cout << "Lub inn¹ opcje: " << endl;
-		cout << "4. Zamknij program." << endl;
+		cout << "4. Drzewo czerwono czarne." << endl;
+		cout << "Lub" << endl;
+		cout << "5. Zamknij program." << endl;
 
 		char a; cin >> a;
 
 		if (a == '1') listRoutine();
 		if (a == '2') heapRoutine();
 		if (a == '3') arrayRoutine();
-		if (a == '4') break;
+		if (a == '4') treeRoutine();
+		if (a == '5') break;
 	}
 }
 
-void runTests() {
-	int repeats = 10;
-
-	TestingSuite * suite = new TestingSuite(10000, 255, true);
-
-	TestResults results = suite->runAppendTestsForArray(repeats);
-
-	cout << results.testHeader << endl;
-	cout << "Avg. time: " << results.averageTimeInSeconds << "s " << endl;
-
-	results = suite->runAppendTestsForHeap(repeats);
-
-	cout << results.testHeader << endl;
-	cout << "Avg. time: " << results.averageTimeInSeconds << "s " << endl;
-
-	results = suite->runAppendTestsForList(repeats);
-
-	cout << results.testHeader << endl;
-	cout << "Avg. time: " << results.averageTimeInSeconds << "s " << endl;
-
-	results = suite->runRemoveTestsForArray(repeats);
-
-	cout << results.testHeader << endl;
-	cout << "Avg. time: " << results.averageTimeInSeconds << "s " << endl;
-
-	results = suite->runRemoveTestsForList(repeats);
-
-	cout << results.testHeader << endl;
-	cout << "Avg. time: " << results.averageTimeInSeconds << "s " << endl;
-
-	results = suite->runRemoveTestsForHeap(repeats);
-
-	cout << results.testHeader << endl;
-	cout << "Avg. time: " << results.averageTimeInSeconds << "s " << endl;
-}
-
 int main() {
-	//mainMenu();
-	runTests();
-
-	system("PAUSE");
+	mainMenu();
 	cleanup();
 	return 0;
 }

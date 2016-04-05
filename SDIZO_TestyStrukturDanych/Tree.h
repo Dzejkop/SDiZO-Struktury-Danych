@@ -1,61 +1,46 @@
 #pragma once
 
-enum Color {
-	BLACK, RED
-};
+#include <iostream>
+#include <string>
 
-struct TreeNode {
-	TreeNode(int value, Color color, TreeNode* parent, TreeNode* right, TreeNode* left);
-	TreeNode * parent;
-	TreeNode * right;
-	TreeNode * left;
-	int value;
-	Color color;
+using namespace std;
+
+class TreeNode
+{
+public:
+	TreeNode();
+	~TreeNode();
+	TreeNode *parent, *left, *right;
+	int key;
+	string color;
 };
 
 class Tree
 {
 private:
-	TreeNode * guard;
-	TreeNode * root;
-	int size;
-
-	//void insert(TreeNode * at, int value);
-	void removeRoot();
-
-	void insertCase1(TreeNode * n);
-	void insertCase2(TreeNode * n);
-	void insertCase3(TreeNode * n);
-	void insertCase4(TreeNode * n);
-	void insertCase5(TreeNode * n);
-
-	void deleteOneChild(TreeNode * n);
-
-	void deleteCase1(TreeNode * n);
-	void deleteCase2(TreeNode * n);
-	void deleteCase3(TreeNode * n);
-	void deleteCase4(TreeNode * n);
-	void deleteCase5(TreeNode * n);
-	void deleteCase6(TreeNode * n);
-
-	void replace(TreeNode * a, TreeNode * b);
-
-	TreeNode* siblingOf(TreeNode * n);
-	TreeNode* grandparentOf(TreeNode * n);
-	TreeNode* uncleOf(TreeNode * n);
-	TreeNode* nodeWithValue(int value);
-	TreeNode* findLargestInLeftSubtree(TreeNode* at);
-
-	void rotateRight(TreeNode * n);
-	void rotateLeft(TreeNode * n);
+	TreeNode guard;
+	string topCorner, bottomCorner, line;
+	string black;
+	string red;
 public:
 	Tree();
-
-	void remove(int value);
-	void insert(int value);
-	bool find(int value);
-	TreeNode * getRoot();
-
+	Tree(int size, int* values);
 	~Tree();
+
+	TreeNode *root;						// Korzeñ drzewa
+	int count;							// Iloœæ elementów w drzewie
+	void removeTree(TreeNode * node);	// Usuwa drzewo o zadanym korzeniu (to mo¿e byæ subdrzewo)
+	
+	void rotateRight(TreeNode* node);	// Wykonuje obrót w prawo zadanego elementu
+	
+	void rotateLeft(TreeNode * node);	// Wykonuje obrót w lewo zadanego elementu
+	
+	void remove(int key);				// Usuwa element o zadanym kluczu z drzewa
+	void add(int key);					// Dodaje element z zadan¹ wartoœci¹
+	
+	void display(string tekxt1, string tekxt2, TreeNode * node);	// Wyswietla drzewo
+
+	bool find(int key);		// Sprawdza czy dana wartoœæ znajduje siê w drzewie
+	TreeNode* getNode(int key);			// Dostêp do elementu o zadanym kluczu
 };
 

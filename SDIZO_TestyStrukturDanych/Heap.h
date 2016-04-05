@@ -1,4 +1,9 @@
 #pragma once
+#include <string>
+#include <iostream>
+
+using namespace std;
+
 class Heap
 {
 private:
@@ -31,6 +36,9 @@ public:
 
 	// Dostêp bezpoœredni
 	int * getArray();
+
+	// Wyswietlanie
+	void display(string t1, string t2, int index);
 
 	// Rozmiar
 	int getSize();

@@ -32,6 +32,40 @@ void Heap::upHeap(int i)
 	}
 }
 
+void Heap::display(string tekst1, string tekst2, int index)
+{
+	if (size == 0)
+		cout << "Kopiec jest pusty" << endl;
+	string tekst;
+
+	string bottom = " $";
+	bottom[0] = 192;
+	bottom[1] = 196;
+	string top = " -";
+	top[0] = 218;
+	top[1] = 196;
+	string line = "  ";
+	line[0] = 179;
+
+	if (index <= size)
+	{
+		tekst = tekst1;
+		if (tekst2 == top)
+			tekst[tekst.length() - 2] = ' ';
+
+		display(tekst + line, top, (2 * index) + 2);
+
+		tekst = tekst.substr(0, tekst1.length() - 2);
+
+		cout << tekst << tekst2 << data[index] << endl;
+
+		tekst = tekst1;
+		if (tekst2 == bottom)
+			tekst[tekst.length() - 2] = ' ';
+		display(tekst + line, bottom, (2 * index) + 1);
+	}
+}
+
 void Heap::heapify(int i)
 {
 	int max = i;
